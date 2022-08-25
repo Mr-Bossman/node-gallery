@@ -3,7 +3,7 @@ const fs = require('fs');
 const request = require("request");
 const global_settings = JSON.parse(fs.readFileSync('gallery-settings.json'));
 
-var sitemap = ["", "robots.txt", "favicon.ico", "images.json", "sitemap.xml", "sizes.json", "featured.json", "main.css"];
+var sitemap = ["", "robots.txt", "favicon.ico", "images.json", "sitemap.xml", "sizes.json", "featured.json", "main.css", "generator.js"];
 
 fs.readdirSync('./gallery/').filter(image => !global_settings["exclude"].includes(image)).forEach(file => {
 	app.get('/image/' + file, (req, res) => {
@@ -35,6 +35,11 @@ app.get('/', function (req, res) {
 
 app.get('/main.css', function (req, res) {
 	res.sendFile('./public/css/main.css', { root: __dirname },);
+
+});
+
+app.get('/generator.js', function (req, res) {
+	res.sendFile('./public/js/generator.js', { root: __dirname },);
 
 });
 

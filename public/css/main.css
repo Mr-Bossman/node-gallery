@@ -1,0 +1,23 @@
+.image-table {
+	width: 20%;
+	padding: 0;
+	margin: 0;
+}
+
+
+.image-table:hover {
+	transform: scale(1.3);
+	transition: transform 0.2s;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+#gallery {
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-flow: wrap;
+}
