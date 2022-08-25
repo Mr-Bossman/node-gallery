@@ -1,0 +1,7 @@
+{
+	"site-name": "gallery.jachan.dev",
+	"port": 8080,
+	"exclude": [".hidden"],
+	"featured": [],
+	"cache-sz": ["1080x720"]
+}
