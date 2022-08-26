@@ -19,6 +19,13 @@ const readdirRec = (prefix, dir) => {
 	});
 	return res;
 }
+const filterImages = (image) => {
+	let ret = true;
+	global_settings["exclude"].forEach( match => {
+		ret &= image.match(new RegExp(match)) === null;
+	});
+	return ret;
+}
 
 const genSiteMap = () => {
 	const lastmod = new Date(Date.now()).toISOString().split("T")[0];
@@ -34,7 +41,7 @@ const genSiteMap = () => {
 	});
 }
 
-readdirRec('./gallery/').filter(image => !global_settings["exclude"].includes(image)).forEach(file => {
+readdirRec('./gallery/').filter(filterImages).forEach(file => {
 	app.get('/image/' + file, (req, res) => {
 		res.sendFile('./gallery/' + file, { root: __dirname });
 	});
@@ -42,7 +49,7 @@ readdirRec('./gallery/').filter(image => !global_settings["exclude"].includes(im
 });
 
 app.get('/images.json', (req, res) => {
-	res.json(readdirRec('./gallery/').filter(image => !global_settings["exclude"].includes(image)));
+	res.json(readdirRec('./gallery/').filter(filterImages));
 });
 
 app.get('/sizes.json', (req, res) => {
