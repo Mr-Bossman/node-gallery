@@ -1,3 +1,5 @@
 node_modules
 gallery/*
+cache/*
+!cache/.hidden
 !gallery/.hidden

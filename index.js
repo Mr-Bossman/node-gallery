@@ -2,6 +2,7 @@ const app = require('express')();
 const fs = require('fs');
 const path = require('path');
 const request = require("request");
+const execSync = require('child_process').execSync;
 const global_settings = JSON.parse(fs.readFileSync('gallery-settings.json'));
 
 var sitemap = ["", "robots.txt", "favicon.ico", "images.json", "sitemap.xml", "sizes.json", "featured.json", "main.css", "generator.js"];
@@ -43,7 +44,17 @@ const genSiteMap = () => {
 
 readdirRec('./gallery/').filter(filterImages).forEach(file => {
 	app.get('/image/' + file, (req, res) => {
-		res.sendFile('./gallery/' + file, { root: __dirname });
+		if(global_settings["cache-sz"].includes(req.query.sz)) {
+			const dirs = file.split("/");
+			const fname = dirs.pop();
+			const dir = dirs.join("_");
+			if(!fs.existsSync(`./cache/${dir}_${req.query.sz}_${fname}`)) {
+				execSync(`jpegoptim --stdout -sq -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
+			}
+			res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
+		} else {
+			res.sendFile('./gallery/' + file, { root: __dirname });
+		}
 	});
 	sitemap.push('image/' + file);
 });
@@ -62,6 +73,11 @@ app.get('/featured.json', (req, res) => {
 
 app.get('/', function (req, res) {
 	res.sendFile('./public/main.html', { root: __dirname },);
+
+});
+
+app.get('/preview', function (req, res) {
+	res.sendFile('./public/preview.html', { root: __dirname },);
 
 });
 

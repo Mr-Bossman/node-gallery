@@ -53,3 +53,7 @@ body {
 	display: flex;
 	flex-flow: wrap;
 }
+
+.preview {
+	overflow-x: auto;
+}
