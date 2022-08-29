@@ -3,5 +3,6 @@
 	"port": 8080,
 	"exclude": [".hidden", ".*ARW", ".*MTS"],
 	"featured": [],
+	"sections": [],
 	"cache-sz": ["500k","900k","600k"]
 }

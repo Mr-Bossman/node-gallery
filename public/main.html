@@ -1,12 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<link rel="stylesheet" href="main.css">
 	<script src="generator.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.css">
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
 </head>
+
 <body>
 	<div id="top-bar">Jesse's Photo Gallery!</div>
-	<div id="gallery"></div>
+	<div id="gallery">
+		<div id="gal" class="section-images section-images-a">
+			<div id="ims" hidden>
+				<a class="section-image" data-pswp-width="6000" data-pswp-height="3376" target="_blank">
+					<img class="lozad img-hover" />
+				</a>
+			</div>
+		</div>
+	</div>
 	<div id="bottom-bar"></div>
+	<script type="module">
+		const images = await fetch(`images.json`).then(res => res.json());
+		const sizes = await fetch(`sizes.json`).then(res => res.json());
+		const featured = await fetch(`featured.json`).then(res => res.json());
+		const container = document.getElementById("gal");
+
+		// loop through images and create image elements
+		images.forEach(function (image) {
+			sizes.sort();
+			let ims = document.getElementById("ims").cloneNode(true);
+			ims.hidden = false;
+			ims.id = "";
+			ims.children[0].children[0].src = `image/${image}?sz=${sizes[0]}`;
+			ims.children[0].children[0].setAttribute("data-src", `image/${image}?sz=${sizes[0]}`);
+			ims.children[0].href = `image/${image}`;
+			ims.children[0].setAttribute("data-pswp-src", `image/${image}`);
+			container.appendChild(ims);
+		});
+		document.getElementById("ims").remove();
+
+		const observer = lozad();
+		observer.observe();
+
+		import { JustifiedGrid } from 'https://cdn.skypack.dev/@egjs/grid';
+		const options = {
+			gap: 8,
+			columnRange: [1, 4],
+			sizeRange: [200, Infinity],
+		};
+		(new JustifiedGrid(".section-images-a", options)).renderItems();
+
+		import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe-lightbox.esm.min.js';
+		import PhotoSwipe from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.esm.min.js';
+
+		const lightbox = new PhotoSwipeLightbox({
+			pswpModule: PhotoSwipe,
+			gallery: '.section-images',
+			children: 'a'
+		});
+		lightbox.init();
+
+	</script>
 </body>
+
 </html>
