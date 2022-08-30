@@ -67,6 +67,10 @@ app.get('/sizes.json', (req, res) => {
 	res.json(global_settings["cache-sz"]);
 });
 
+app.get('/sections.json', (req, res) => {
+	res.json(global_settings["sections"]);
+});
+
 app.get('/featured.json', (req, res) => {
 	res.json(global_settings["featured"]);
 });
@@ -88,6 +92,11 @@ app.get('/main.css', function (req, res) {
 
 app.get('/generator.js', function (req, res) {
 	res.sendFile('./public/js/generator.js', { root: __dirname },);
+
+});
+
+app.get('/favicon.ico', function (req, res) {
+	res.sendFile('./public/js/favicon.ico', { root: __dirname },);
 
 });
 

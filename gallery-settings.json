@@ -1,8 +1,43 @@
 {
 	"site-name": "gallery.jachan.dev",
 	"port": 8080,
-	"exclude": [".hidden", ".*ARW", ".*MTS"],
-	"featured": [],
-	"sections": [],
-	"cache-sz": ["500k","900k","600k"]
+	"exclude": [
+		".hidden",
+		".*ARW",
+		".*MTS"
+	],
+	"featured": [
+		"2021/04/07/DSC04018.JPG",
+		"2021/05/18/DSC05371.JPG",
+		"2021/05/18/DSC05378.JPG",
+		"2021/12/11/DSC07369.JPG",
+		"2021/12/11/DSC07372.JPG",
+		"2022/09/19/DSC06789.JPG",
+		"2021/04/07/DSC04020.JPG"
+	],
+	"sections": {
+		"cats": {
+			"title": "Cats:",
+			"description": "My beautiful cats",
+			"includes": [
+				"2021/04/07/DSC04018.JPG",
+				"2021/04/07/DSC04019.JPG",
+				"2021/04/07/DSC04025.JPG",
+				"2021/12/11/DSC07364.JPG",
+				"2021/12/11/DSC07365.JPG",
+				"2021/12/11/DSC07366.JPG",
+				"2021/12/11/DSC07367.JPG",
+				"2021/12/11/DSC07368.JPG",
+				"2021/12/11/DSC07369.JPG",
+				"2021/12/11/DSC07370.JPG",
+				"2021/12/11/DSC07371.JPG",
+				"2021/12/11/DSC07372.JPG"
+			]
+		}
+	},
+	"cache-sz": [
+		"500k",
+		"900k",
+		"600k"
+	]
 }
