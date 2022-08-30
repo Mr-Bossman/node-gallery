@@ -72,3 +72,17 @@ const options = {
 Object.keys(global_sections).forEach(section => {
 	(new JustifiedGrid("." + section, options)).renderItems();
 });
+
+const observer = lozad();
+observer.observe();
+
+import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe-lightbox.esm.min.js';
+import PhotoSwipe from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.esm.min.js';
+
+const lightbox = new PhotoSwipeLightbox({
+	pswpModule: PhotoSwipe,
+	gallery: '.section-images',
+	children: 'a'
+});
+
+lightbox.init();
