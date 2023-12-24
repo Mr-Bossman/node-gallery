@@ -51,10 +51,24 @@ body {
 
 .section-image img {
 	width: 100%;
+	height: 100%;
 }
 
 .section-images {
+	--grid-layout-gap: 0.3rem;
+	--grid-column-count: 4;
+	--grid-item--min-width: 15rem;
+
 	margin: 0.2rem 0;
+	display: grid;
+	--gap-count: calc(var(--grid-column-count) - 1);
+	--total-gap-width: calc(var(--gap-count) * var(--grid-layout-gap));
+	--grid-item--max-width: calc((100% - var(--total-gap-width)) / var(--grid-column-count));
+
+	grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
+	grid-gap: var(--grid-layout-gap);
+
+
 }
 
 #gallery {

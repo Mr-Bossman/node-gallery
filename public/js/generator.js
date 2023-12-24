@@ -1,3 +1,6 @@
+import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe-lightbox.esm.min.js';
+import PhotoSwipe from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.esm.min.js';
+
 let global_sections = {};
 const images = await fetch(`images.json`).then(res => res.json());
 const sizes = await fetch(`sizes.json`).then(res => res.json());
@@ -35,54 +38,46 @@ const CheckSections = (image) => {
 	return ret;
 }
 
-images.forEach(function (image) {
-	sizes.sort();
-	if (featured.includes(image)) {
-		if (!("featured-gallery" in global_sections)) {
-			document.getElementById("gallery").prepend(AddSection("featured", "Featured:", ""));
+const Entry = () => {
+
+	images.forEach(function (image) {
+		sizes.sort();
+		if (featured.includes(image)) {
+			if (!("featured-gallery" in global_sections)) {
+				document.getElementById("gallery").prepend(AddSection("featured", 	"Featured:", ""));
+			}
+			AddImage(global_sections["featured-gallery"], image);
 		}
-		AddImage(global_sections["featured-gallery"], image);
-	}
-	const section = CheckSections(image);
-	if (section !== false) {
-		let description = sections[section].description;
-		let title = sections[section].title;
-		if (!(`${section}-gallery` in global_sections)) {
-			document.getElementById("gallery").appendChild(AddSection(section, title, description));
+		const section = CheckSections(image);
+		if (section !== false) {
+			let description = sections[section].description;
+			let title = sections[section].title;
+			if (!(`${section}-gallery` in global_sections)) {
+				document.getElementById("gallery").appendChild(AddSection(section, title, 	description));
+			}
+			AddImage(global_sections[`${section}-gallery`], image);
+		} else {
+			if (!("global-gallery" in global_sections)) {
+				document.getElementById("gallery").appendChild(AddSection("global", 	"Photos:", ""));
+			}
+			AddImage(global_sections["global-gallery"], image);
 		}
-		AddImage(global_sections[`${section}-gallery`], image);
-	} else {
-		if (!("global-gallery" in global_sections)) {
-			document.getElementById("gallery").appendChild(AddSection("global", "Photos:", ""));
-		}
-		AddImage(global_sections["global-gallery"], image);
-	}
 
-});
+	});
 
-document.getElementById("template-section").remove();
+	document.getElementById("template-section").remove();
 
-import { JustifiedGrid } from 'https://cdn.skypack.dev/@egjs/grid';
-const options = {
-	gap: 8,
-	columnRange: [1, 5],
-	sizeRange: [200, Infinity],
-};
+	const observer = lozad();
+	observer.observe();
 
-Object.keys(global_sections).forEach(section => {
-	(new JustifiedGrid("." + section, options)).renderItems();
-});
 
-const observer = lozad();
-observer.observe();
+	const lightbox = new PhotoSwipeLightbox({
+		pswpModule: PhotoSwipe,
+		gallery: '.section-images',
+		children: 'a'
+	});
 
-import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe-lightbox.esm.min.js';
-import PhotoSwipe from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.esm.min.js';
+	lightbox.init();
+}
 
-const lightbox = new PhotoSwipeLightbox({
-	pswpModule: PhotoSwipe,
-	gallery: '.section-images',
-	children: 'a'
-});
-
-lightbox.init();
+Entry();

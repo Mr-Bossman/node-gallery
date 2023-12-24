@@ -113,5 +113,5 @@ app.use(function (req, res) {
 });
 
 app.listen(global_settings["port"]);
-request.get(`http://www.google.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
-request.get(`http://www.bing.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
+//request.get(`http://www.google.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
+//request.get(`http://www.bing.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
