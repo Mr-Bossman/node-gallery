@@ -53,12 +53,15 @@ const Entry = () => {
 			let description = sections[section].description;
 			let title = sections[section].title;
 			if (!(`${section}-gallery` in global_sections)) {
-				document.getElementById("gallery").appendChild(AddSection(section, title, 	description));
+				const global = document.getElementById("global-section");
+				const new_section = AddSection(section, title, description);
+				document.getElementById("gallery").insertBefore(new_section, global);
 			}
 			AddImage(global_sections[`${section}-gallery`], image);
 		} else {
 			if (!("global-gallery" in global_sections)) {
-				document.getElementById("gallery").appendChild(AddSection("global", 	"Photos:", ""));
+				const new_section = AddSection("global", "Photos:", "");
+				document.getElementById("gallery").appendChild(new_section);
 			}
 			AddImage(global_sections["global-gallery"], image);
 		}

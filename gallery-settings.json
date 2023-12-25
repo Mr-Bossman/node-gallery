@@ -33,6 +33,25 @@
 				"2021/12/11/DSC07371.JPG",
 				"2021/12/11/DSC07372.JPG"
 			]
+		},
+		"macro": {
+			"title": "Macro:",
+			"description": "Photos of small things",
+			"includes": [
+				"macro/DSC09821.JPG",
+				"macro/MacIIAXT-front.JPG",
+				"macro/DSC09798.JPG",
+				"macro/DSC08077.JPG",
+				"macro/MacIIATX-back.JPG",
+				"macro/DSC09872.JPG",
+				"macro/DIP-16.JPG",
+				"macro/genderbentgenderbender.JPG",
+				"macro/DIP-16-close.JPG",
+				"macro/E.JPG",
+				"macro/Cap-1.JPG",
+				"macro/Cap-2.JPG",
+				"macro/DSC09805.JPG"
+			]
 		}
 	},
 	"cache-sz": [
