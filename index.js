@@ -2,7 +2,7 @@ const app = require('express')();
 const fs = require('fs');
 const path = require('path');
 const request = require("request");
-const execSync = require('child_process').execSync;
+const exec = require('child_process').exec;
 const global_settings = JSON.parse(fs.readFileSync('gallery-settings.json'));
 
 var sitemap = ["", "robots.txt", "favicon.ico", "images.json", "sitemap.xml", "sizes.json", "featured.json", "main.css", "generator.js"];
@@ -49,9 +49,13 @@ readdirRec('./gallery/').filter(filterImages).forEach(file => {
 			const fname = dirs.pop();
 			const dir = dirs.join("_");
 			if(!fs.existsSync(`./cache/${dir}_${req.query.sz}_${fname}`)) {
-				execSync(`jpegoptim --stdout -sq -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
+				const resize = exec(`jpegoptim --stdout -sq -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
+				resize.on('close', () => {
+					res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
+				});
+			} else {
+				res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
 			}
-			res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
 		} else {
 			res.sendFile('./gallery/' + file, { root: __dirname });
 		}
@@ -113,5 +117,5 @@ app.use(function (req, res) {
 });
 
 app.listen(global_settings["port"]);
-//request.get(`http://www.google.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
-//request.get(`http://www.bing.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
+request.get(`http://www.google.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
+request.get(`http://www.bing.com/ping?sitemap=https://${global_settings["site-name"]}/sitemap.xml`);
