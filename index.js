@@ -49,7 +49,7 @@ readdirRec('./gallery/').filter(filterImages).forEach(file => {
 			const fname = dirs.pop();
 			const dir = dirs.join("_");
 			if(!fs.existsSync(`./cache/${dir}_${req.query.sz}_${fname}`)) {
-				const resize = exec(`jpegoptim --stdout -sq -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
+				const resize = exec(`jpegoptim --stdout -sqf -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
 				resize.on('close', () => {
 					res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
 				});
