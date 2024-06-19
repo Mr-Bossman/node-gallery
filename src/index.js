@@ -51,13 +51,13 @@ readdirRec('./gallery/').filter(filterImages).forEach(file => {
 			if(!fs.existsSync(`./cache/${dir}_${req.query.sz}_${fname}`)) {
 				const resize = exec(`jpegoptim --stdout -sqf -S${req.query.sz} ./gallery/${file} > ./cache/${dir}_${req.query.sz}_${fname}`);
 				resize.on('close', () => {
-					res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
+					res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: "." });
 				});
 			} else {
-				res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: __dirname });
+				res.sendFile(`./cache/${dir}_${req.query.sz}_${fname}`, { root: "." });
 			}
 		} else {
-			res.sendFile('./gallery/' + file, { root: __dirname });
+			res.sendFile('./gallery/' + file, { root: "." });
 		}
 	});
 	sitemap.push('image/' + file);
@@ -80,27 +80,27 @@ app.get('/featured.json', (req, res) => {
 });
 
 app.get('/', function (req, res) {
-	res.sendFile('./public/main.html', { root: __dirname },);
+	res.sendFile('./template/main.html', { root: __dirname },);
 
 });
 
 app.get('/preview', function (req, res) {
-	res.sendFile('./public/preview.html', { root: __dirname },);
+	res.sendFile('./template/preview.html', { root: __dirname },);
 
 });
 
 app.get('/main.css', function (req, res) {
-	res.sendFile('./public/css/main.css', { root: __dirname },);
+	res.sendFile('./template/css/main.css', { root: __dirname },);
 
 });
 
 app.get('/generator.js', function (req, res) {
-	res.sendFile('./public/js/generator.js', { root: __dirname },);
+	res.sendFile('./template/js/generator.js', { root: __dirname },);
 
 });
 
 app.get('/favicon.ico', function (req, res) {
-	res.sendFile('./public/js/favicon.ico', { root: __dirname },);
+	res.sendFile('./template/js/favicon.ico', { root: __dirname },);
 
 });
 
@@ -112,7 +112,7 @@ app.get("/robots.txt", (req, res) => {
 genSiteMap();
 
 app.use(function (req, res) {
-	res.status(404).sendFile('./public/404.html', { root: __dirname },);
+	res.status(404).sendFile('./template/404.html', { root: __dirname },);
 
 });
 
