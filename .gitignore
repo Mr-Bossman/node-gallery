@@ -3,3 +3,9 @@ gallery/*
 cache/*
 !cache/.hidden
 !gallery/.hidden
+
+# MacOS
+.DS_Store
+
+# TypeScript target directory
+dist
