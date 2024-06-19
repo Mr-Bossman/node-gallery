@@ -4,7 +4,8 @@
 	"exclude": [
 		".hidden",
 		".*ARW",
-		".*MTS"
+		".*MTS",
+        "\\.DS_Store"
 	],
 	"featured": [
 		"2021/04/07/DSC04018.JPG",
