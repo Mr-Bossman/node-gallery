@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Support UTF-8 characters -->
+    <meta charset="UTF-8">
+
+    <!-- Support responsive -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Website title -->
+    <title>Jesse's Photo Gallery!</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.css">
+
+    <!-- JS -->
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+</head>
+<body>
+
+<div id="top-bar">Jesse's Photo Gallery!</div>
+<div id="gallery"></div>
+<div id="bottom-bar"></div>
+
+<script type="module">
+    import PhotoSwipeLightbox
+        from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe-lightbox.esm.min.js'
+    import PhotoSwipe
+        from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.2.2/photoswipe.esm.min.js'
+
+    const observer = lozad()
+    observer.observe()
+
+    const lightbox = new PhotoSwipeLightbox({
+        pswpModule: PhotoSwipe,
+        gallery: '.section-images',
+        children: 'a',
+    })
+
+    lightbox.init()
+</script>
+
+</body>
+</html>
