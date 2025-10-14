@@ -1,3 +1,5 @@
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import { compressAndGetImageCachePath, getSettings } from './service.js'
 import { ROOT_DIR, GALLERY_DIR, QUERY_STRING_KEYS, TEMPLATE_DIR } from './constants.js'
 import send from 'koa-send'
@@ -28,7 +30,13 @@ router.get('/favicon.ico', async (ctx) => {
  */
 router.get('/(css/.*\.css)', async (ctx) => {
     const file: string = ctx.params[0]
-    await send(ctx, file, { root: TEMPLATE_DIR })
+    if (!fs.existsSync(path.join(TEMPLATE_DIR, path.normalize(file)))) {
+        // File not found send 404
+        ctx.status = 404
+        await send(ctx, '404.html', { root: TEMPLATE_DIR })
+    } else {
+        await send(ctx, file, { root: TEMPLATE_DIR })
+    }
 })
 
 /**
@@ -42,7 +50,11 @@ router.get('/image/(.*)', async (ctx) => {
     const size: string = settings['cache-sz'].includes(querySize) ? querySize : ''
     const imagePath: string = ctx.params[0]
 
-    if (size) {
+    if (!fs.existsSync(path.join(GALLERY_DIR, path.normalize(imagePath)))) {
+        // Image not found send 404
+        ctx.status = 404
+        await send(ctx, '404.html', { root: TEMPLATE_DIR })
+    } else if (size) {
         // Send the compressed image (cache)
         const imageCachePath: string = await compressAndGetImageCachePath(imagePath, size, settings['compression-timeout'])
         await send(ctx, imageCachePath, { root: ROOT_DIR })
