@@ -15,6 +15,14 @@ router.get('/', async (ctx) => {
 })
 
 /**
+ * Serves the favicon file used for the application icon.
+ * @route
+ */
+router.get('/favicon.ico', async (ctx) => {
+    await send(ctx, '/favicon.ico', { root: TEMPLATE_DIR })
+})
+
+/**
  * Serves the CSS file used for styling the application.
  * @route
  */
