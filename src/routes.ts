@@ -1,5 +1,5 @@
 import { compressAndGetImageCachePath, getSettings } from './service.js'
-import { CACHE_DIR, GALLERY_DIR, QUERY_STRING_KEYS, TEMPLATE_DIR } from './constants.js'
+import { ROOT_DIR, GALLERY_DIR, QUERY_STRING_KEYS, TEMPLATE_DIR } from './constants.js'
 import send from 'koa-send'
 import { sitemapResourceMonitor, webpageResourceMonitor } from './resource_monitor.js'
 import KoaRouter from 'koa-router'
@@ -44,8 +44,8 @@ router.get('/image/(.*)', async (ctx) => {
 
     if (size) {
         // Send the compressed image (cache)
-        const imageCachePath: string = await compressAndGetImageCachePath(imagePath, size)
-        await send(ctx, imageCachePath, { root: CACHE_DIR })
+        const imageCachePath: string = await compressAndGetImageCachePath(imagePath, size, settings['compression-timeout'])
+        await send(ctx, imageCachePath, { root: ROOT_DIR })
     } else {
         // Send the original image
         await send(ctx, imagePath, { root: GALLERY_DIR })

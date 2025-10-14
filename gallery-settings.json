@@ -1,6 +1,7 @@
 {
 	"site-name": "gallery.jachan.dev",
 	"port": 8080,
+	"compression-timeout": 5000,
 	"exclude": [
 		".hidden",
 		".*ARW",

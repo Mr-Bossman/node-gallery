@@ -1,7 +1,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { Settings } from './settings.js'
-import { CACHE_DIR, GALLERY_DIR } from './constants.js'
+import { CACHE_DIR, GALLERY_DIR, ROOT_DIR } from './constants.js'
 import { exec } from 'child_process'
 import { settingsMonitor } from './resource_monitor.js'
 
@@ -97,7 +97,7 @@ export async function compressImage(
     outputImagePath: string,
 ): Promise<void> {
     const resizeCommand: string
-        = `jpegoptim --stdout -sqf -S${size} ${imagePath} > ${outputImagePath}`
+        = `jpegoptim --stdout -sqf -S${size} ${imagePath} > ${outputImagePath}.tmp && mv ${outputImagePath}.tmp ${outputImagePath}`
     return new Promise((resolve, reject) => {
         exec(resizeCommand, (error, _, stderr) => {
             if (error) {
@@ -115,7 +115,7 @@ export async function compressImage(
  *
  * This function checks if a cached version of the image already exists. If not, it compresses
  * the original image from the gallery directory to the desired size using the `compressImage`
- * function. The resulting cached image path is then returned.
+ * function. The resulting cached image path is then returned if compression happens within a given time
  *
  * @param {string} imagePath - The relative path to the original image within the gallery directory.
  * @param {string} size - The desired size identifier for the cached image (e.g., "100k").
@@ -124,16 +124,25 @@ export async function compressImage(
 export async function compressAndGetImageCachePath(
     imagePath: string,
     size: string,
+    timeout: number
 ): Promise<string> {
     const originalImagePath: string = path.join(GALLERY_DIR, imagePath)
 
     const imageCachePath: string = getImageCachePath(imagePath, size)
     if (!fs.existsSync(imageCachePath)) {
         // Create a cache file if not exist
-        await compressImage(originalImagePath, size, imageCachePath)
+        const compressPromise = compressImage(originalImagePath, size, imageCachePath)
+        const timeoutPromise = new Promise((resolve, _) => {
+            setTimeout(resolve, timeout);
+        });
+
+        await Promise.race([compressPromise, timeoutPromise])
     }
 
-    return imageCachePath.substring(CACHE_DIR.length + 1)
+    if (fs.existsSync(imageCachePath))
+        return imageCachePath.substring(ROOT_DIR.length + 1)
+    else
+        return originalImagePath.substring(ROOT_DIR.length + 1);
 }
 
 /**

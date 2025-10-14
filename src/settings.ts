@@ -22,6 +22,9 @@ export interface Settings {
 
     // Available cache sizes
     ['cache-sz']: string[],
+
+    // Time to wait for image to be compressed before returning original.
+    'compression-timeout': number
 }
 
 export interface Section {
